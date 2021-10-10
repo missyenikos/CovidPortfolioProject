@@ -59,7 +59,7 @@ order by 1,2;
 
 -- Total Population vs Vaccinations
 
--- JOINING TABLES TO DERIVE FURTHER INFORMATION
+-- FURTHER INFORMATION CAN BE OBTAINED BY JOINING TABLES
  SELECT * 
  FROM covid_death dea
  JOIN covid_vaccine vac
@@ -75,8 +75,8 @@ JOIN covid_vaccine vac ON dea.location = vac.location
 where dea.continent is not null
 order by 2,3;
 
--- TOTAL POPULATION THAT HAS BEEN VACCINATED compare to world population 
--- PERFORMING CTE AND PARTITION BY 
+- TOTAL POPULATION THAT HAS BEEN VACCINATED IN COMPARISON TO THE WORLD POPULATION
+-- APPLYING CTE AND PARTITION BY 
 WITH PopvsVac (Continent, location, date,population, new_vaccination, RollingPeopleVaccinated) as
 (SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations,
 sum(vac.new_vaccinations) OVER (partition by location order by dea.location,dea.date) as RollingPeopleVaccinated
@@ -88,7 +88,7 @@ SELECT *, (RollingPeopleVaccinated/population) *100 FROM PopvsVac;
 USE covid;
 
 
--- USING TEMP TABLE;
+-- UTILISING TEMP TABLE;
 
 DROP TABLE IF EXISTS 'PercentPopulationVaccinated';
 CREATE TEMPORARY TABLE PercentPopulationVaccinated(
